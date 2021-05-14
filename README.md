@@ -3,7 +3,9 @@ Closable, Interruptable Python queues
 
 This module provides additional functionality to Python queues.
 
-# .close() method
+# Added methods
+
+## .close() method
 
 This method allows for a queue to be placed into a closed state. In this state,
 no further items can be placed into the queue, while items still in the queue can
@@ -24,10 +26,22 @@ raise the Closed exception.
 Calls to .put() on a full queue will also block until queue is no longer full or
 is interrupted.
 
-# .interrupt() method
+## .interrupt() method
 
 This method interrupts the queue immediately, causing all threads waiting to **get**
 or **put** to raise the Interrupted exception immediately.
 
 Calls to .get() on an nonempty queue, or .put(item) on a non-full queue after
 .interrupt() has been called will also immediately raise the Interrupted exception.
+
+# Usage
+
+The .close() and .interrupt() methods are provided by the mixin class CI. To use,
+simply subclass a queue.Queue subclass as follows:
+
+```python
+from ciqueue import CI
+
+class Queue(CI, queue.Queue):
+    pass
+```
