@@ -41,7 +41,6 @@ class CI(object):
 
     def _qsize(self):
         self._checkinterrupted()
-        print("O", self.not_full._is_owned())
 
         size = super()._qsize()
 
