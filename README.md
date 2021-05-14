@@ -45,3 +45,27 @@ from ciqueue import CI
 class Queue(CI, queue.Queue):
     pass
 ```
+
+Note: The mixin also provides ._put(item), ._get(), ._qsize(), and ._init(maxsize)
+methods. In order implement these methods, a subclass must be created **before** mixing
+in with the CI class.
+
+```python
+from ciqueue import CI
+
+class CustomQueue(queue.Queue):
+    def _init(self, maxsize):
+        pass
+
+    def _get(self):
+        pass
+
+    def _put(self, item):
+        pass
+
+    def _qsize(self):
+        pass
+
+class CustomQueue(CI, CustomQueue):
+    pass
+```
