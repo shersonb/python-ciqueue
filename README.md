@@ -100,10 +100,10 @@ while True:
     try:
         item = q.get()
 
-    except Closed:
+    except Interrupted:
         break
 
-    except Interrupted:
+    except Closed:
         break
 
     doanotherthing(item)
