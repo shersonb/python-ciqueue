@@ -101,6 +101,7 @@ while True:
         item = q.get()
 
     except Interrupted:
+        handleinterruption()
         break
 
     except Closed:
