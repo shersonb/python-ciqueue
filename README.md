@@ -36,6 +36,8 @@ Calls to .get() on an nonempty queue, or .put(item) on a non-full queue after
 
 # Usage
 
+## Creating queue classes with mixin
+
 The .close() and .interrupt() methods are provided by the mixin class CI. To use,
 simply subclass a queue.Queue subclass as follows:
 
@@ -69,3 +71,43 @@ class CustomQueue(queue.Queue):
 class CustomQueue(CI, CustomQueue):
     pass
 ```
+
+## Using closable and interruptable queues
+
+In a thread that preprocesses items and puts them into into a queue:
+
+```python
+
+for item in iterator:
+    try:
+        item = dosomething(item)
+
+    except:
+        q.interrupt()
+        raise
+
+    q.put(item)
+
+
+q.close()
+```
+
+In a worker thread that retrieves items from a queue:
+
+```python
+
+while True:
+    try:
+        item = q.get()
+
+    except Closed:
+        break
+
+    except Interrupted:
+        break
+
+    doanotherthing(item)
+```
+
+One may choose also interrupt the queue from within the worker thread in the event an exception occurs
+in ```doanotherthing```.
